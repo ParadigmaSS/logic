@@ -1,5 +1,7 @@
-sintoma(febre).
-sintoma(doresNasArticulações).
-sintoma(manchasVermelhasNaPele).
-sintoma(coceira).
+sintoma(febreAlta).
+sintoma(doresIntensasNasArticulações).
+sintoma(doresLevesNasArticulações).
+sintoma(manchasVermelhasNaPeleNasPrimeiras24Horas).
+sintoma(manchasVermelhasNaPeleNasPrimeiras48Horas).
+sintoma(coceiraIntensa).
 sintoma(vermelhidãoNosOlhos).

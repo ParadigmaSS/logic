@@ -17,5 +17,5 @@ perguntaHepatica:-write('O paciante está com manifestações de insuficiência 
 perguntaHemorragia:-write('O paciente está com qualquer tipo de indicação hemorrágica?').
 
 % Dengue hemorragica
-perguntaDengue1-write('O cliente já teve dengue?').
-perguntaDengue2-write('O cliente está queda ou ausência de pressão arterial?').
+perguntaDengue1:-write('O cliente já teve dengue?').
+perguntaDengue2:-write('O cliente está queda ou ausência de pressão arterial?').
