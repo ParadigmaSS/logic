@@ -1,4 +1,4 @@
-:- dynamic sim/1, nao/1, analisaResposta/1.
+:- dynamic sim/1, nao/1, analisaResposta/2.
 
 hipotese('Provavelmente o paciente possui Zika') :- zika, !.
 hipotese('Provavelmente o paciente possui Chinkungunya') :- chikungunya, !.
@@ -41,20 +41,16 @@ limpaBase1(X).
 
 main :- limpaBase(sim(Sintoma)),
 		hipotese(Doenca),
-		write(Doenca),
+		new(D, dialog('Resultado')),
+		send(D, size, size(300, 100)),
+		new(T, text(Doenca)),
+    	send(D, display, T, point(80,40)),
+    	send(D, open).
 		nl.
 
-
-analisaResposata(Resposta) :- write(Resposta),
-    nl,
-    ( (Resposta == sim ; Resposta == s))
-    -> 
-		assert(sim(Pergunta)) ;
-		assert(nao(Pergunta)), fail).
-
 mostraMessagem(Pergunta) :- use_module(library(pce)),
-    new(D, dialog('Pergunta.')),
-    send(D, size, size(350,200)),
+    new(D, dialog('Pergunta')),
+    send(D, size, size(500,100)),
     send(D, append(new(NameItem, text_item(Pergunta)))),
     send(D, append(button(ok, message(D, return, NameItem?selection)))),
     send(D, append(button(cancel, message(D, return, @nil)))),
@@ -62,7 +58,9 @@ mostraMessagem(Pergunta) :- use_module(library(pce)),
     get(D, confirm, Rval),
     free(D),
     Rval \== @nil,
-    Resposta = Rval,   
-    write(Resposta),
-    analisaResposta(Resposta),
-    nl.
+    Resposta = Rval, 
+    nl,
+	( (Resposta == sim ; Resposta == s)
+		->
+		assert(sim(Pergunta)) ;
+		assert(nao(Pergunta)), fail).
