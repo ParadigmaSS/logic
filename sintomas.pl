@@ -13,9 +13,12 @@ zika :- doresLevesNasArticulacoes,
 chikungunya :- febreAlta,
 			   doresIntensasNasArticulacoes,
 			   manchasVermelhasNaPeleNasPrimeiras48Horas,
+			   conceiraLeve,
 			   vermelhidaoNosOlhos.
 
-dengue :- febreAlta.
+dengue :- febreAlta,
+		  doresModeradasNasArticulacoes,
+		  conceiraLeve.
 
 doresLevesNasArticulacoes :- verifica('O paciente possui dores leves nas articulacoes '), !.
 manchasVermelhasNaPeleNasPrimeiras24Horas :- verifica('As manchas no paciente se manifestaram nas primeiras 24hrs '), !.
@@ -24,6 +27,8 @@ vermelhidaoNosOlhos :- verifica('O paciente possui vermelhidao nos olhos '), !.
 febreAlta :- verifica('O paciente possui febre alta '), !.
 doresIntensasNasArticulacoes :- verifica('O paciente possui dores intensas nas articulacoes '), !.
 manchasVermelhasNaPeleNasPrimeiras48Horas :- verifica('As manchas no paciente se manifestaram nas primeiras 48hrs '), !.
+doresModeradasNasArticulacoes :- verifica('O paciente possui dores moderadas nas articulacoes '), !.
+conceiraLeve :- verifica('O paciente possui coceira leve '), !.
 
 perguntar(Pergunta) :-
 	write(Pergunta),
