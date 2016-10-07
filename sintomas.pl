@@ -1,4 +1,4 @@
-:- dynamic sim/1, nao/1.
+:- dynamic sim/1, nao/1, analisaResposta/1.
 
 hipotese('Provavelmente o paciente possui Zika') :- zika, !.
 hipotese('Provavelmente o paciente possui Chinkungunya') :- chikungunya, !.
@@ -30,18 +30,8 @@ manchasVermelhasNaPeleNasPrimeiras48Horas :- verifica('As manchas no paciente se
 doresModeradasNasArticulacoes :- verifica('O paciente possui dores moderadas nas articulacoes '), !.
 conceiraLeve :- verifica('O paciente possui coceira leve '), !.
 
-perguntar(Pergunta) :-
-	write(Pergunta),
-	write('(Responda sim ou nao) ? '),
-	read(Resposta),
-	nl,
-	( (Resposta == sim ; Resposta == s)
-		->
-		assert(sim(Pergunta)) ;
-		assert(nao(Pergunta)), fail).
-
 verifica(X) :-
-	(sim(X)	->	true ;	(nao(X)	 ->	 fail ;	 perguntar(X))).
+	(sim(X)	->	true ;	(nao(X)	 ->	 fail ;	 mostraMessagem(X))).
 
 limpaBase(X):- limpaBase1(X), fail.
 limpaBase(X).
@@ -53,3 +43,26 @@ main :- limpaBase(sim(Sintoma)),
 		hipotese(Doenca),
 		write(Doenca),
 		nl.
+
+
+analisaResposata(Resposta) :- write(Resposta),
+    nl,
+    ( (Resposta == sim ; Resposta == s))
+    -> 
+		assert(sim(Pergunta)) ;
+		assert(nao(Pergunta)), fail).
+
+mostraMessagem(Pergunta) :- use_module(library(pce)),
+    new(D, dialog('Pergunta.')),
+    send(D, size, size(350,200)),
+    send(D, append(new(NameItem, text_item(Pergunta)))),
+    send(D, append(button(ok, message(D, return, NameItem?selection)))),
+    send(D, append(button(cancel, message(D, return, @nil)))),
+    send(D, default_button(ok)),
+    get(D, confirm, Rval),
+    free(D),
+    Rval \== @nil,
+    Resposta = Rval,   
+    write(Resposta),
+    analisaResposta(Resposta),
+    nl.
